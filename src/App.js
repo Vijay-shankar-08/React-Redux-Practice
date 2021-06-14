@@ -1,34 +1,46 @@
-import React, { useEffect } from 'react'
-import {useSelector , useDispatch } from 'react-redux'
-import { getUser } from './redux-saga/saga-user'
+import React from 'react'
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import User from './components/User'
+import Home from './components/Home'
+import Menu from './components/Menu'
 import './App.css';
 
 
 
 function App() {
-  const dispatch = useDispatch()
-
-useEffect(()=>{
-  dispatch(getUser())
-},[dispatch])
-
-const user = useSelector((state)=> state.user.user)
-const error = useSelector((state)=> state.user.error)
-  return (
-    <div className="App">
-      <h1>hello</h1>
-      {error.message ? (
-        <p>{error.message}</p>
-      ):(
-        <div>
-      {user && 
-      user.map(user => <p>{user.name}</p>)}
+  return(
+    <Router>
+      <div>
+          <ul>
+            <li>
+              <Link to='/'>Home</Link>
+            </li>
+            <li>
+              <Link to='/user'>User</Link>
+            </li>
+            <li>
+              <Link to='/menu'>Menu</Link>
+            </li>
+          </ul>
+          <hr />
+      <div>
+        <Switch>
+          <Route path='/User'>
+            <User />
+          </Route>
+          <Route path='/Menu'>
+            <Menu />
+          </Route>
+          <Route  path='/'>
+              <Home />
+          </Route>
+        </Switch>
       </div>
-      )}
-      
-      
     </div>
-  );
+   </Router>
+
+  )
 }
+ 
 
 export default App;
